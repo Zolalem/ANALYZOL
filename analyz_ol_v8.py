@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ANALYZOL V8.0.0-RESEARCH. Reproducible Poisson/Dixon-Coles baseline."""
+"""ANALYZOL V8.1-DEV. Corrected outcome-probability labels; based on frozen V8.0."""
 import argparse, json, hashlib, os
 import numpy as np
 import pandas as pd
@@ -60,7 +60,9 @@ class PoissonDC:
     def predict(self,h,a,max_goals=10):
         m=self.score_matrix(h,a,max_goals)
         # Rows are home goals, columns away goals.
-        ph=float(np.triu(m,1).sum()); pd=float(np.trace(m)); pa=float(np.tril(m,-1).sum())
+        # Rows are home goals and columns are away goals:
+        # home win = lower triangle; away win = upper triangle.
+        ph=float(np.tril(m,-1).sum()); pd=float(np.trace(m)); pa=float(np.triu(m,1).sum())
         x,y=np.unravel_index(np.argmax(m),m.shape)
         return {"p_home":ph,"p_draw":pd,"p_away":pa,"top_score":f"{x}-{y}",
                 "lambda_home":self.expected_goals(h,a)[0],
