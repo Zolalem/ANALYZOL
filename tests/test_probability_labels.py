@@ -34,9 +34,9 @@ class ProbabilityLabelTests(unittest.TestCase):
 
         result = model.predict("Home", "Away")
 
-        self.assertAlmostEqual(result["p_home"], 0.30)
+        self.assertAlmostEqual(result["p_home"], 0.50)
         self.assertAlmostEqual(result["p_draw"], 0.20)
-        self.assertAlmostEqual(result["p_away"], 0.50)
+        self.assertAlmostEqual(result["p_away"], 0.30)
 
 
 if __name__ == "__main__":
