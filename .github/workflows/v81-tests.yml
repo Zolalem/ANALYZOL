@@ -1,0 +1,23 @@
+name: V8.1 development tests
+
+on:
+  push:
+    branches: ["2"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  probability-label-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip numpy pandas scipy
+      - name: Run probability-label regression tests
+        run: python -m unittest discover -s tests -v
